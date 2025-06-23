@@ -1,0 +1,49 @@
+{% extends "DRIS/base.html" %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3>灾难详情报告</h3>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">灾难类型</dt>
+                <dd class="col-sm-9">{{ object.get_disaster_type_display }}</dd>
+                
+                <dt class="col-sm-3">地点</dt>
+                <dd class="col-sm-9">{{ object.location }}</dd>
+                
+                <dt class="col-sm-3">严重程度</dt>
+                <dd class="col-sm-9">
+                    <span class="badge 
+                        {% if object.severity == 'CR' %}bg-danger
+                        {% elif object.severity == 'HG' %}bg-warning text-dark
+                        {% elif object.severity == 'MD' %}bg-info text-dark
+                        {% else %}bg-secondary{% endif %}">
+                        {{ object.get_severity_display }}
+                    </span>
+                </dd>
+                
+                <dt class="col-sm-3">报告时间</dt>
+                <dd class="col-sm-9">{{ object.timestamp|naturaltime }}</dd>
+                
+                <dt class="col-sm-3">详细描述</dt>
+                <dd class="col-sm-9">{{ object.description }}</dd>
+            </dl>
+            
+            <div class="mt-4">
+                <a href="{% url 'disaster_reports' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> 返回列表
+                </a>
+                {% if user == object.reporter or user.user_type == 'AT' %}
+                <a href="{% url 'update_report' object.pk %}" class="btn btn-primary ml-2">
+                    <i class="fas fa-edit"></i> 编辑报告
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

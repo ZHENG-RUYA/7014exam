@@ -1,0 +1,32 @@
+{% extends "DRIS/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Shelters List</h2>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Capacity</th>
+                <th>Current Occupancy</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for shelter in shelters %}
+            <tr>
+                <td>{{ shelter.name }}</td>
+                <td>{{ shelter.location }}</td>
+                <td>{{ shelter.capacity }}</td>
+                <td>{{ shelter.current_occupancy }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No shelters available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
